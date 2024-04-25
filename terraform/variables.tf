@@ -39,7 +39,7 @@ variable "icr_region" {
 variable "tags" {
   description = "List of Tags"
   type        = list(string)
-  default     = ["tf", "elp"]
+  default     = ["tf", "moto"]
 }
 
 # Account ID is required for CBR (Context Based Restrictions) and SCC scope

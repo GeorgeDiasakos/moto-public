@@ -80,7 +80,7 @@ variable "floating_ip" {
 ##############################################################################
 
 resource "ibm_is_vpc" "vpc" {
-  name                        = format("%s-%s", local.basename, "vpc")
+  name                        = "motoroil-vpc"
   resource_group              = ibm_resource_group.group.id
   address_prefix_management   = var.vpc_address_prefix_management
   default_security_group_name = "${local.basename}-vpc-sg"
