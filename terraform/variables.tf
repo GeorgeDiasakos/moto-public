@@ -111,7 +111,7 @@ data "ibm_is_image" "image_bastion" {
 
 variable "db2_region" {
   description = "Region where bastion will be deployed"
-  default     = "eu-de-2"
+  default     = "eu-de-1"
 }
 
 variable "subnet_cidr_db2" {
