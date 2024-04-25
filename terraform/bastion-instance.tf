@@ -11,7 +11,7 @@ resource "ibm_is_subnet" "bastion_subnet" {
   resource_group  = ibm_resource_group.group.id
 #  network_acl     = ibm_is_network_acl.bastion_acl.id
 
-  depends_on = [ibm_is_vpc_address_prefix.address_prefix]
+  depends_on = [data.ibm_is_vpc_address_prefix.address_prefix]
 }
 
 ##############################################################################
@@ -44,7 +44,7 @@ resource "ibm_is_instance" "bastion" {
 ##############################################################################
 resource "ibm_is_floating_ip" "bastion" {
 #  count         = var.bastion_count
-  name          = "elp-bastion-float-ip-${var.bastion_region}"
+  name          = "moto-bastion-float-ip-${var.bastion_region}"
   target        = ibm_is_instance.bastion.primary_network_interface[0].id
   tags          = var.tags
 }
