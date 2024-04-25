@@ -85,21 +85,14 @@ variable "floating_ip" {
 # address_prefix_management   = var.vpc_address_prefix_management
 #  default_security_group_name = "${local.basename}-vpc-sg"
 #  default_network_acl_name    = "${local.basename}-vpc-acl"
-  # Delete all rules attached to default security group and default network ACL
-  # for a new VPC. This attribute has no impact on update. Default = false
-  # no_sg_acl_rules             = true
+# Delete all rules attached to default security group and default network ACL
+# for a new VPC. This attribute has no impact on update. Default = false
+# no_sg_acl_rules             = true
 #  classic_access = var.vpc_classic_access
 #  tags           = var.tags
 #}
 
-variable "vpc_id" {
-  type        = string
-  default     = "motoroil-vpc"
-}
 
-data "ibm_is_vpc" "vpc" {
-  id = var.vpc_id
-}
 
 
 ##############################################################################
