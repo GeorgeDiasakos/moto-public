@@ -11,20 +11,7 @@
 #  tags           = var.tags
 #}
 
-##############################################################################
-# Create subnet for the db2 and Power BI GW
-##############################################################################
-resource "ibm_is_subnet" "db2_subnet" {
-  name            = "${local.basename}-db2-subnet"
-  vpc             = data.ibm_is_vpc.vpc.id
-  zone            = "${var.db2_region}"
-  ipv4_cidr_block = "${var.subnet_cidr_db2}"
-  tags            = var.tags
-  resource_group  = ibm_resource_group.group.id
-#  network_acl     = ibm_is_network_acl.db2_acl.id
-  public_gateway  = var.vpc_enable_public_gateway ? element(ibm_is_public_gateway.pgw.*.id, 1) : null
 
-}
 
 
 ##############################################################################
@@ -50,7 +37,7 @@ resource "ibm_is_instance" "db2" {
   volumes = [ibm_is_volume.db2_volume.id]
 
   primary_network_interface {
-    subnet = ibm_is_subnet.db2_subnet.id
+    subnet = ibm_is_subnet.bastion_subnet.id
   }
 
   boot_volume {
@@ -71,7 +58,7 @@ resource "ibm_is_instance" "powerbigw" {
   profile = var.profile_name_powerbigw
 
   primary_network_interface {
-    subnet = ibm_is_subnet.db2_subnet.id
+    subnet = ibm_is_subnet.bastion_subnet.id
   }
 
     boot_volume {
