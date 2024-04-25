@@ -18,6 +18,7 @@ variable "openshift_machine_flavor" {
   description = " The default flavor of the OpenShift worker node."
   type        = string
   default     = "bx2.16x64"
+  secondary_storage = "300gb.5iops-tier"
 }
 
 variable "openshift_worker_nodes_per_zone" {
