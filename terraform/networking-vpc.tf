@@ -104,7 +104,7 @@ data "ibm_is_vpc_address_prefix" "address_prefix" {
   count = length(var.vpc_cidr_blocks)
   name  = "${local.basename}-prefix-zone-${count.index + 1}"
   zone  = "${var.region}-${(count.index % 3) + 1}"
-  vpc   = ibm_is_vpc.vpc.id
+  vpc   = data.ibm_is_vpc.vpc.id
   cidr  = element(var.vpc_cidr_blocks, count.index)
 }
 
