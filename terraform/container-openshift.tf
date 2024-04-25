@@ -18,7 +18,7 @@ variable "openshift_machine_flavor" {
   description = " The default flavor of the OpenShift worker node."
   type        = string
   default     = "bx2.16x64"
-  secondary_storage = "300gb.5iops-tier"
+  
 }
 
 variable "openshift_worker_nodes_per_zone" {
@@ -136,6 +136,7 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
   update_all_workers              = var.openshift_update_all_workers
 
   flavor       = var.openshift_machine_flavor
+  secondary_storage = "300gb.5iops-tier"
   worker_count = var.openshift_worker_nodes_per_zone
   wait_till    = var.openshift_wait_till
 
