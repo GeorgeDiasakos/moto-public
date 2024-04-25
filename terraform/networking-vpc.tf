@@ -163,7 +163,7 @@ resource "ibm_is_subnet" "subnet" {
   tags            = var.tags
   resource_group  = ibm_resource_group.group.id
 
-  depends_on = [ibm_is_vpc_address_prefix.address_prefix]
+  depends_on = [data.ibm_is_vpc_address_prefix.address_prefix]
 }
 
 ##############################################################################
