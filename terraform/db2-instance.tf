@@ -24,8 +24,6 @@ resource "ibm_is_subnet" "db2_subnet" {
 #  network_acl     = ibm_is_network_acl.db2_acl.id
   public_gateway  = var.vpc_enable_public_gateway ? element(ibm_is_public_gateway.pgw.*.id, 1) : null
 
-
-  depends_on = [data.ibm_is_vpc_address_prefix.address_prefix]
 }
 
 
@@ -65,7 +63,7 @@ resource "ibm_is_instance" "db2" {
 ##############################################################################
 
 resource "ibm_is_instance" "powerbigw" {
-  name    = "elp-power-bi-gw"
+  name    = "moto-power-bi-gw"
   vpc     = data.ibm_is_vpc.vpc.id
   zone    = "${var.db2_region}"
   keys    = [data.ibm_is_ssh_key.ssh_key_id_powerbigw.id]
