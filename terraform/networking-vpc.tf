@@ -117,7 +117,7 @@ resource "ibm_is_public_gateway" "pgw" {
 
   count          = var.vpc_enable_public_gateway ? length(var.subnet_cidr_blocks) : 0
   name           = "${local.basename}-pgw-${count.index + 1}"
-  vpc            = ibm_is_vpc.vpc.id
+  vpc            = data.ibm_is_vpc.vpc.id
   zone           = "${var.region}-${count.index + 1}"
   resource_group = ibm_resource_group.group.id
   tags           = var.tags
@@ -129,7 +129,7 @@ resource "ibm_is_public_gateway" "pgw" {
 resource "ibm_is_network_acl" "multizone_acl" {
 
   name           = "${local.basename}-multizone-acl"
-  vpc            = ibm_is_vpc.vpc.id
+  vpc            = data.ibm_is_vpc.vpc.id
   resource_group = ibm_resource_group.group.id
 
   dynamic "rules" {
@@ -155,7 +155,7 @@ resource "ibm_is_subnet" "subnet" {
 
   count           = length(var.subnet_cidr_blocks)
   name            = "${local.basename}-ocp-subnet-${count.index + 1}"
-  vpc             = ibm_is_vpc.vpc.id
+  vpc             = data.ibm_is_vpc.vpc.id
   zone            = "${var.region}-${count.index + 1}"
   ipv4_cidr_block = element(var.subnet_cidr_blocks, count.index)
   network_acl     = ibm_is_network_acl.multizone_acl.id
@@ -173,7 +173,7 @@ resource "ibm_is_subnet" "subnet" {
 #
 #  count           = length(var.subnet_cidr_blocks_2)
 #  name            = "${local.basename}-subnet-${count.index + 4}"
-#  vpc             = ibm_is_vpc.vpc.id
+#  vpc             = data.ibm_is_vpc.vpc.id
 #  zone            = "${var.region}-${count.index + 1}"
 #  ipv4_cidr_block = element(var.subnet_cidr_blocks_2, count.index)
 #  tags            = var.tags
