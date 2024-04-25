@@ -51,7 +51,6 @@ variable "vpc_id" {
 }
 
 data "ibm_is_vpc" "vpc" {
-  id = var.vpc_id
   name = "motoroil-vpc"
 }
 

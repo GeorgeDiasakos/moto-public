@@ -4,7 +4,7 @@
 ##############################################################################
 resource "ibm_is_subnet" "bastion_subnet" {
   name            = "${local.basename}-bastion-subnet"
-  vpc             = ibm_is_vpc.vpc.id
+  vpc             = data.ibm_is_vpc.vpc.id
   zone            = "${var.bastion_region}"
   ipv4_cidr_block = "${var.subnet_cidr_bastion}"
   tags            = var.tags
@@ -19,7 +19,7 @@ resource "ibm_is_subnet" "bastion_subnet" {
 ##############################################################################
 resource "ibm_is_instance" "bastion" {
   name           = "elp-bastion-${var.bastion_region}"
-  vpc            = ibm_is_vpc.vpc.id
+  vpc            = data.ibm_is_vpc.vpc.id
   zone           = "${var.bastion_region}"
   keys           = [data.ibm_is_ssh_key.ssh_key_id_bastion.id]
   image          = data.ibm_is_image.image_bastion.id
