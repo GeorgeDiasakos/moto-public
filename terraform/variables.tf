@@ -42,6 +42,18 @@ variable "tags" {
   default     = ["tf", "moto"]
 }
 
+#######
+# VPC to use
+########
+variable "vpc_id" {
+  type        = string
+  default     = "motoroil-vpc"
+}
+
+data "ibm_is_vpc" "vpc" {
+  id = var.vpc_id
+}
+
 # Account ID is required for CBR (Context Based Restrictions) and SCC scope
 ##############################################################################
 data "ibm_iam_auth_token" "tokendata" {}
