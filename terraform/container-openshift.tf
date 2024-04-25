@@ -166,7 +166,7 @@ resource "ibm_container_vpc_worker_pool" "roks_worker_pools" {
   resource_group_id = ibm_resource_group.group.id
   worker_pool_name  = each.key
   flavor            = lookup(each.value, "machine_type", null)
-  vpc_id            = ibm_is_vpc.vpc.id
+  vpc_id            = data.ibm_is_vpc.vpc.id
   worker_count      = each.value.workers_per_zone
 
   dynamic "zones" {
