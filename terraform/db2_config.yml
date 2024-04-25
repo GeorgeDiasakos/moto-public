@@ -1,0 +1,51 @@
+#cloud-config
+# https://cloudinit.readthedocs.io/en/latest/reference/examples.html
+
+# swap 32GB 
+swap:
+  filename: /swapfile
+  size: 34359738368      
+
+# Create Three users for RDP and provide admin rights
+users:
+  - name: motoadmin
+    gecos: motoadmin
+    groups: sudo
+    lock_passwd: false
+    passwd: $6$6.W9pvDvJC4Y$TyOldZ3LZE/ffrpdQvP02EBmFk6XxWoPHxbLD5pUha/NfwkD.wU9FJoDs3XCBhNGSh.xjKeXXCZtpXmQ11kCP0
+  - name: db2admin
+    gecos: db2admin
+    groups: db2grp
+    shell: /bin/ksh
+    no_user_group: true
+    homedir: /home/db2admin
+    lock_passwd: false
+    passwd: $6$rounds=4096$irggMF6wl9kJy442$Lui26bzCz3bujJPZYMOFDoa06.hXJsgWyiN7go6tUCPAbbxIsHIfPc6LaY1OAh1NvXFkCUC2hiUnlxmYs40aN.
+  - name: db2fence
+    gecos: db2fence
+    groups: db2grp
+    shell: /bin/ksh
+    no_user_group: true
+    homedir: /home/db2fence
+    lock_passwd: false
+    passwd: $6$rounds=4096$5P0TxECFi9pD6aVb$yfkF54hKTW9tU44BOElEGFCLANDKQD9K.m9UFTu.uXgwg5B36S0RcMIG/mXp3G5RvoPi8QyoR.BpgGX4yNOKT1
+
+# Install DB2 dependencies
+packages:
+  - pam-devel
+  - pam-devel-1.5.1-14.el9.i686
+  - libaio
+  - libaio-0.3.111-13.el9.i686
+  - unzip
+  - binutils
+  - libstdc++
+  - libstdc++.i686
+  - vim
+
+# Settings for DB2
+runcmd:
+  - sleep 45 # temporary workaround to wait until the Red Hat registration is done
+  - dnf update -y
+  - mkdir /Software
+  - sysctl -w vm.swappiness=5 >> /etc/sysctl.conf
+  - sysctl -w vm.overcommit_memory=0 >> /etc/sysctl.conf

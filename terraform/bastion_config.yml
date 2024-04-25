@@ -1,0 +1,39 @@
+#cloud-config
+# https://cloudinit.readthedocs.io/en/latest/reference/examples.html
+
+# Create Three users for RDP and provide admin rights
+users:
+  - name: motoadmin
+    gecos: motoadmin
+    groups: sudo
+    lock_passwd: false
+    passwd: $6$6.W9pvDvJC4Y$TyOldZ3LZE/ffrpdQvP02EBmFk6XxWoPHxbLD5pUha/NfwkD.wU9FJoDs3XCBhNGSh.xjKeXXCZtpXmQ11kCP0
+  - name: motoadmin2
+    gecos: motoadmin2
+    groups: sudo
+    lock_passwd: false
+    passwd: $6$6.W9pvDvJC4Y$TyOldZ3LZE/ffrpdQvP02EBmFk6XxWoPHxbLD5pUha/NfwkD.wU9FJoDs3XCBhNGSh.xjKeXXCZtpXmQ11kCP0
+  - name: motoadmin3
+    gecos: motoadmin3
+    groups: sudo
+    lock_passwd: false
+    passwd: $6$6.W9pvDvJC4Y$TyOldZ3LZE/ffrpdQvP02EBmFk6XxWoPHxbLD5pUha/NfwkD.wU9FJoDs3XCBhNGSh.xjKeXXCZtpXmQ11kCP0
+
+# Install Gnome (UI)
+packages:
+  - ubuntu-desktop
+  - xrdp
+  - docker.io
+
+# Update apt database on first boot
+package_update: true
+
+# Enabling XRDP via SSH
+# Install oc & kubectl clients
+runcmd:
+  - adduser xrdp ssl-cert
+  - systemctl restart xrdp
+  - sed -i 's/port=3389/port=tcp:\/\/.:3389/' /etc/xrdp/xrdp.ini
+  - systemctl restart xrdp
+  - mkdir /cp4d 
+  - cd /cp4d && wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz && tar -xvf openshift-client-linux.tar.gz && mv oc kubectl /usr/local/bin/ && oc version 
