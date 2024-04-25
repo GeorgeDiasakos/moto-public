@@ -6,7 +6,7 @@
 # To expose apps by using load balancers or Ingress, allow traffic through VPC 
 # load balancers. For example, for Ingress listening on TCP/443
 resource "ibm_is_security_group_rule" "sg-rule-inbound-icmp" {
-  group     = ibm_is_vpc.vpc.default_security_group
+  group     = data.ibm_is_vpc.vpc.default_security_group
   direction = "inbound"
   remote    = "0.0.0.0/0"
 
@@ -18,7 +18,7 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-icmp" {
 # Allow incoming ICMP packets (Ping)
 ##############################################################################
 resource "ibm_is_security_group_rule" "sg-rule-inbound-https" {
-  group     = ibm_is_vpc.vpc.default_security_group
+  group     = data.ibm_is_vpc.vpc.default_security_group
   direction = "inbound"
   remote    = "0.0.0.0/0"
 
@@ -31,7 +31,7 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-https" {
 # SSH Inbound Rule
 ##############################################################################
 resource "ibm_is_security_group_rule" "sg-rule-inbound-ssh" {
-  group     = ibm_is_vpc.vpc.default_security_group
+  group     = data.ibm_is_vpc.vpc.default_security_group
   direction = "inbound"
   remote    = "0.0.0.0/0"
 
@@ -64,7 +64,7 @@ variable "cis_ipv4_cidrs" {
 
 resource "ibm_is_security_group" "sg-cis-cloudflare" {
   name           = format("%s-%s", local.basename, "sg-cis-ips")
-  vpc            = ibm_is_vpc.vpc.id
+  vpc            = data.ibm_is_vpc.vpc.id
   resource_group = ibm_resource_group.group.id
 }
 
@@ -105,7 +105,7 @@ variable "control-plane-ips" {
 
 resource "ibm_is_security_group" "sg-iks-control-plane-fra" {
   name           = format("%s-%s", local.basename, "sg-iks-control-plane-fra")
-  vpc            = ibm_is_vpc.vpc.id
+  vpc            = data.ibm_is_vpc.vpc.id
   resource_group = ibm_resource_group.group.id
 }
 
@@ -132,7 +132,7 @@ resource "ibm_is_security_group_rule" "sg-rule-outbound-control-plane" {
 
 resource "ibm_is_security_group" "kube-master-outbound" {
   name           = format("%s-%s", local.basename, "kube-master-outbound")
-  vpc            = ibm_is_vpc.vpc.id
+  vpc            = data.ibm_is_vpc.vpc.id
   resource_group = ibm_resource_group.group.id
 }
 
@@ -160,7 +160,7 @@ resource "ibm_is_security_group_rule" "sg-rule-kube-master-udp-outbound" {
 ##############################################################################
 resource "ibm_is_security_group" "home-access" {
   name           = format("%s-%s", local.basename, "access-from-home")
-  vpc            = ibm_is_vpc.vpc.id
+  vpc            = data.ibm_is_vpc.vpc.id
   resource_group = ibm_resource_group.group.id
 }
 
