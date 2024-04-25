@@ -102,7 +102,6 @@ variable "floating_ip" {
 data "ibm_is_vpc_address_prefix" "address_prefix" {
 
   vpc   = data.ibm_is_vpc.vpc.id
-  address_prefix = data.ibm_is_vpc_address_prefix.address_prefix.address_prefix
 }
   
 
