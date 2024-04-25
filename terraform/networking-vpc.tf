@@ -79,17 +79,26 @@ variable "floating_ip" {
 # Create a VPC
 ##############################################################################
 
-resource "ibm_is_vpc" "vpc" {
-  name                        = "motoroil-vpc"
-  resource_group              = ibm_resource_group.group.id
-  address_prefix_management   = var.vpc_address_prefix_management
-  default_security_group_name = "${local.basename}-vpc-sg"
-  default_network_acl_name    = "${local.basename}-vpc-acl"
+#resource "ibm_is_vpc" "vpc" {
+# name                        = "motoroil-vpc"
+#  resource_group              = ibm_resource_group.group.id
+# address_prefix_management   = var.vpc_address_prefix_management
+#  default_security_group_name = "${local.basename}-vpc-sg"
+#  default_network_acl_name    = "${local.basename}-vpc-acl"
   # Delete all rules attached to default security group and default network ACL
   # for a new VPC. This attribute has no impact on update. Default = false
   # no_sg_acl_rules             = true
-  classic_access = var.vpc_classic_access
-  tags           = var.tags
+#  classic_access = var.vpc_classic_access
+#  tags           = var.tags
+#}
+
+variable "vpc_id" {
+  type        = string
+  default     = "motoroil-vpc"
+}
+
+data "ibm_is_vpc" "vpc" {
+  id = var.vpc_id
 }
 
 
@@ -97,7 +106,7 @@ resource "ibm_is_vpc" "vpc" {
 # Prefixes and subnets for each zone
 ##############################################################################
 
-resource "ibm_is_vpc_address_prefix" "address_prefix" {
+data "ibm_is_vpc_address_prefix" "address_prefix" {
 
   count = length(var.vpc_cidr_blocks)
   name  = "${local.basename}-prefix-zone-${count.index + 1}"
