@@ -17,7 +17,7 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_icr" {
 
   name           = "${local.basename}-icr-vpe"
   resource_group = ibm_resource_group.group.id
-  vpc            = ibm_is_vpc.vpc.id
+  vpc            = data.ibm_is_vpc.vpc.id
 
   target {
     crn           = local.icr_target.crn
